@@ -31,9 +31,10 @@ class Main {
         return (charCount >= 2 && numCount >= 2 && attherate == 1 && lowercount >= 1 && uppercount >= 1);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        Console in = System.console();
+      BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        //Console in = System.console();
         System.out.println("Enter your name:");
         String n = in.readLine();
         System.out.println("Your name is: " + n);
