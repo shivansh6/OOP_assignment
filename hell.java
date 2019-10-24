@@ -42,7 +42,31 @@ class EraserThread implements Runnable {
       this.stop = false;
    }
 }
+public static boolean is_Valid_Password(String password) {
 
+        if (password.length() < PASSWORD_LENGTH) return false;
+
+        int charCount = 0;
+        int numCount = 0;
+        int attherate=0;
+        int uppercount=0;
+        int lowercount=0;
+        for (int i = 0; i < password.length(); i++) {
+
+            char ch = password.charAt(i);
+
+            if (ch>='0'&&ch<='9') numCount++;
+            
+            else if (ch>='a'&&ch<='z') lowercount++;
+            else if (ch>='A'&&ch<='Z') uppercount++;
+            else if(ch=='@'||ch=='$'||ch=='#')attherate++;
+            else return false;
+            charCount = lowercount+uppercount;
+        }
+
+
+        return (charCount >= 2 && numCount >= 2&&attherate==1&&lowercount>=1&&uppercount>=1);
+    }
 
 class PasswordField {
 
@@ -73,6 +97,14 @@ class PasswordField {
   
     PasswordField newpass = new PasswordField();
      String password = newpass.readPassword("Enter password: ");
+     boolean b = true;
+     while(b)
+     {
+        if(is_Valid_Password(password))
+          b=false;
+        else
+          System.out.println("Wrong password please enter valid password");
+     }
    System.out.println("The password entered is: "+password);
    try{  
              FileWriter fout=new FileWriter("D:\\testout.txt",true); 
