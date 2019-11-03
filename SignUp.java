@@ -8,11 +8,12 @@ class SignUp1
   String username;
   String email_id;
   String password;
-  SignUp1()
+  int ch;
+  SignUp1(int ch)
   {
     this.username = new String();
     this.email_id = new String();
-  //  this.password = new String();
+    this.ch = ch;
   }
   static boolean validName(String name)
   {
@@ -116,7 +117,7 @@ class SignUp1
       }
       return (charCount >= 2 && numCount >= 2 && attherate == 1 && lowercount >= 1 && uppercount >= 1);
   }
-  void SignUpme(int ch)
+  void SignUpme()
   {
       Scanner sc = new Scanner(System.in);
       System.out.println("____________________________________________________________________________________________________________________________________________________________________________");
@@ -261,7 +262,6 @@ class SignUp
   public static void main(String args[])
   {
     Scanner sc = new Scanner(System.in);
-    SignUp1 ob = new SignUp1();
     boolean ok = true;
     int ch=0;
     while(ok)
@@ -274,6 +274,7 @@ class SignUp
       else
         System.out.println("Entered choice is invalid");
     }
-    ob.SignUpme(ch);
+    SignUp1 ob = new SignUp1(ch);
+    ob.SignUpme();
   }
 }
