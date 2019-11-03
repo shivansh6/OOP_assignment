@@ -236,6 +236,17 @@ class SignUp1
           try
           {
               FileWriter fout = new FileWriter("C:\\Users\\Brij\\Desktop\\Java_Project\\Text_Files\\Testout.txt", true);
+              switch(ch)
+              {
+                case 1 :
+                  fout = new FileWriter("C:\\Users\\Brij\\Desktop\\Java_Project\\Text_Files\\student_record.txt", true);
+                  break;
+                case 2 :
+                  fout = new FileWriter("C:\\Users\\Brij\\Desktop\\Java_Project\\Text_Files\\recruiter_record.txt", true);
+                  break;
+                case 3 :
+                  fout = new FileWriter("C:\\Users\\Brij\\Desktop\\Java_Project\\Text_Files\\admin_record.txt", true);
+              }
               fout.write(username);
               fout.write("|||");
               fout.write(email_id);
