@@ -120,7 +120,6 @@ class SignUp1
   void SignUpme()
   {
       Scanner sc = new Scanner(System.in);
-      System.out.println("____________________________________________________________________________________________________________________________________________________________________________");
       System.out.print("Name :- ");
       username = sc.nextLine();
       boolean ok = false;
@@ -275,6 +274,7 @@ class SignUp
     Scanner sc = new Scanner(System.in);
     boolean ok = true;
     int ch=0;
+    System.out.println("____________________________________________________________________________________________________________________________________________________________________________");
     while(ok)
     {
       System.out.println("1. Student \n2. Recruiter \n3. Admin");
