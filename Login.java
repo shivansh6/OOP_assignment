@@ -18,7 +18,10 @@ class Login1
   private String want_to_master;
   private int mincgpa;
   private  int intake;
+  private String uni;
+  private int mingpa;
   static HashMap<String,Integer> recru=new HashMap<>();
+  static HashMap<String,Integer> admin = new HashMap<>();
   Login1(int ch)
   {
     this.ch = ch;
@@ -47,10 +50,39 @@ class Login1
           //System.out.println(rname+" "+data);
           recru.put(rname,Integer.parseInt(data));
         }
+        //System.out.println(recru);
     }
     catch(Exception e)
     {
-      System.out.println(e);
+      System.out.println("");
+    }
+  }
+  public void makeHashMap1()
+  {
+    File file = new File("C:\\Users\\Brij\\Desktop\\Java_Project\\Text_Files\\admin_record.txt");
+    try{
+      RandomAccessFile raf = new RandomAccessFile(file,"r");
+      while (raf.getFilePointer() < raf.length()) {
+          String data = raf.readLine();
+          int index_start = data.indexOf("|||*|||");
+          int index_end = data.indexOf("||*||",index_start+7);
+          String rname;
+          if(index_start!=-1)
+          rname = data.substring(index_start+7,index_end);
+          else
+          break;
+          int index = data.indexOf("|||*|||");
+          data = data.substring(index+7);
+          index = data.indexOf("||*||");
+          data = data.substring(index+5);
+          //System.out.println(rname+" "+data);
+          admin.put(rname,Integer.parseInt(data));
+        }
+        //System.out.println(recru);
+    }
+    catch(Exception e)
+    {
+      System.out.println("");
     }
   }
   public static HashMap<String, Integer> sort(HashMap<String, Integer> hm)
@@ -58,9 +90,7 @@ class Login1
         // Create a list from elements of HashMap
         List<Map.Entry<String, Integer> > list =
                new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
-
         // Sort the list
-
         Collections.sort(list,new Comparator<Map.Entry<String, Integer> >() {
             public int compare(Map.Entry<String, Integer> o1,
                                Map.Entry<String, Integer> o2)
@@ -69,7 +99,6 @@ class Login1
             }
         });
 		Collections.reverse(list);
-		//Collections.reverse(list);
           //Collections.sort(list,Collections.reverseOrder());
         // put data from sorted list to hashmap
         HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
@@ -140,7 +169,7 @@ class Login1
       if(temp.equals(password))
         ok = false;
     }
-    System.out.println("We got success");
+    //System.out.println("We got success");
   }
   public void setdetails(int ch){
 	  Scanner sc = new Scanner(System.in);
@@ -177,12 +206,14 @@ class Login1
               ok = false;
       }
       Map<String,Integer> stu = sort(recru);
-      //System.out.println(recru);
+      System.out.println("All recruiter's list with minimum CGPA");
+      System.out.println(recru);
       Set<String> keys = stu.keySet();
+      System.out.println("\t\t\t\tThis are sorted companies");
       for(String i : keys)
 			{
         if(recru.get(i)<=Integer.parseInt(cgpa))
-          System.out.println(i+" "+recru.get(i));
+          System.out.printf("%20s %40d\n",i,recru.get(i));
       }
 			System.out.print("You want placement or not (yes/no) :- ");
 			String s = sc.nextLine();
@@ -194,6 +225,16 @@ class Login1
       want_to_master = "NO";
       if(want_to_place.equalsIgnoreCase("NO"))
       {
+        Map<String,Integer> stu1 = sort(admin);
+        System.out.println("All MOU university list with minimum CGPA");
+        System.out.println(admin);
+        Set<String> keys1 = stu1.keySet();
+        System.out.println("\t\t\t\tThis are sorted MOU university according your cgpa :");
+        for(String i : keys1)
+  			{
+          if(admin.get(i)<=Integer.parseInt(cgpa))
+            System.out.printf("%20s %40d\n",i,admin.get(i));
+        }
         System.out.print("You want master or not (yes/no) :- ");
   			s = sc.nextLine();
   			if(s.equalsIgnoreCase("NO")){
@@ -244,13 +285,14 @@ class Login1
 			}catch(IOException e){
 				System.out.println(e);
 			}
+      HomePage.HOMEPAGE();
       break;
       case 2:
           ok=true;
           while(ok)
           {
             try{
-            System.out.println("Enter total number of intakes:");
+            System.out.print("Enter total number of intakes :- ");
             intake = sc.nextInt();
             if(intake>0)
               ok=false;
@@ -264,7 +306,7 @@ class Login1
           while(ok)
           {
             try{
-            System.out.println("Enter cutt off of cgpa:");
+            System.out.print("Enter cutt off of cgpa : ");
             mincgpa = sc.nextInt();
             if(mincgpa>=0 & mincgpa<=10)
               ok=false;
@@ -291,7 +333,14 @@ class Login1
             break;
           String rname = data.substring(index_start+3,index_end);
           if (rname.equals(username)) {
+            if(!data.contains("|||*|||"))
           data = data.concat("|||*|||"+ intake + "||*||" + mincgpa);
+          else
+            {
+              int indd = data.indexOf("|||*|||");
+              data = data.substring(0,indd);
+              data = data.concat("|||*|||"+ intake + "||*||" + mincgpa);
+            }
                               }
           tmpraf.writeBytes(data);
           tmpraf.writeBytes(System.lineSeparator());
@@ -310,14 +359,89 @@ class Login1
           }catch(IOException e){
           System.out.println(e);
           }
+          HomePage.HOMEPAGE();
           break;
+        case 3 :
+          {
+            ok=true;
+            while(ok)
+            {
+              try{
+              System.out.print("Enter name of University :- ");
+              uni = sc.nextLine();
+              ok=false;
+              }
+              catch(Exception e)
+              {
+                System.out.println(e);
+              }
+            }
+            ok=true;
+            while(ok)
+            {
+              try{
+              System.out.print("Enter cutt off of cgpa : ");
+              mingpa = sc.nextInt();
+              if(mingpa>=0 & mingpa<=10)
+                ok=false;
+              }
+              catch(Exception e)
+              {
+                System.out.println(e);
+              }
+            }
+            admin.put(uni,mingpa);
+            file2 = new File("C:\\Users\\Brij\\Desktop\\Java_Project\\Text_Files\\admin_record.txt");
+            file3 = new File("C:\\Users\\Brij\\Desktop\\Java_Project\\for_copy_admin.txt");
+            try{
 
+            RandomAccessFile raf = new RandomAccessFile(file2, "rw");
+            RandomAccessFile tmpraf = new RandomAccessFile(file3, "rw");
+            raf.seek(0);
+            while (raf.getFilePointer() < raf.length()) {
+
+            String data = raf.readLine();
+            int index_start = data.indexOf("|||");
+            int index_end = data.indexOf('@');
+            if(index_start==-1)
+              break;
+            String rname = data.substring(index_start+3,index_end);
+            if (rname.equals(username)) {
+              if(!data.contains("|||*|||"))
+            data = data.concat("|||*|||"+ uni + "||*||" + mingpa);
+            else
+              {
+                int indd = data.indexOf("|||*|||");
+                data = data.substring(0,indd);
+                data = data.concat("|||*|||"+ uni + "||*||" + mingpa);
+              }
+            }
+            tmpraf.writeBytes(data);
+            tmpraf.writeBytes(System.lineSeparator());
+            }
+            raf.seek(0);
+            tmpraf.seek(0);
+            while (tmpraf.getFilePointer() < tmpraf.length()) {
+            raf.writeBytes(tmpraf.readLine());
+            raf.writeBytes(System.lineSeparator());
+            }
+            raf.setLength(tmpraf.length());
+            tmpraf.close();
+            raf.close();
+            file3.delete();
+
+            }catch(IOException e){
+            System.out.println(e);
+            }
+            HomePage.HOMEPAGE();
+            break;
+          }
 	  }
   }
 }
 class Login
 {
-  public static void main(String args[])
+  public void Final_login()
   {
     Scanner sc = new Scanner(System.in);
     boolean ok = true;
@@ -330,12 +454,16 @@ class Login
       ch = sc.nextInt();
       if(ch>=1 || ch<=3)
         ok = false;
+      else if(ch==-999)
+        System.exit(0);
       else
         System.out.println("Entered choice is invalid");
     }
     Login1 ob = new Login1(ch);
     ob.makeHashMap();
+    ob.makeHashMap1();
     ob.Loginme();
     ob.setdetails(ch);
+
   }
 }
