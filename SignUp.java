@@ -256,6 +256,7 @@ class SignUp1
               System.out.println("Successfully account is created");
               int index = email_id.indexOf('@');
               System.out.println("Your username is "+email_id.substring(0,index));
+              HomePage.HOMEPAGE(); 
           }
           catch (Exception e)
           {
@@ -263,18 +264,16 @@ class SignUp1
           }
           System.out.println("____________________________________________________________________________________________________________________________________________________________________________");
     }
-
-
-
 }
 class SignUp
 {
-  public static void main(String args[])
+  public void SIGNUP()
   {
     Scanner sc = new Scanner(System.in);
     boolean ok = true;
     int ch=0;
     System.out.println("____________________________________________________________________________________________________________________________________________________________________________");
+
     while(ok)
     {
       System.out.println("1. Student \n2. Recruiter \n3. Admin");
